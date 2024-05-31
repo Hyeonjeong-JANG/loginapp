@@ -13,6 +13,15 @@ public class UserController {
     private final UserService userService;
     private final HttpSession session; // IoC 등록되어 있음 (스프링 실행 되면)
 
+    // http://localhost:8080/oauth/callback?code=23534kjsdf
+    @GetMapping("/oauth/callback")
+    public String oauthCallback(String code) {
+        User sessionUser = userService.카카오로그인(code);
+        session.setAttribute("sessionUser", sessionUser);
+        System.out.println("code" + code);
+        return "redirect:/shop";
+    }
+
     @GetMapping("/join-form")
     public String joinForm() {
         return "join-form";
